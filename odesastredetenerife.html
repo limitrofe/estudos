@@ -1,0 +1,914 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap')
+
+    :root {
+        --background-color: white;
+    }
+
+    body {
+        background-color: var(--background-color);
+        
+    }
+
+    h3{
+        padding: 0;
+        margin: 0;
+    }
+
+    a{
+        text-decoration: none;
+    }
+
+    #secao-paragrafo{
+        display:flex; 
+        justify-content:center; 
+        align-items:center;  
+        margin-top:10px;  
+        padding-left:20px; 
+        padding-right:20px; 
+        background-color:white;
+    }
+    
+    .ads-wrapper {
+        position: relative;
+        width: 100%;
+        margin-top: 1.5em;
+        margin-bottom: 1.5em;
+    }
+
+    .titulo-foto {
+        font-family: 'Open Sans', sans-serif; 
+        color: white; 
+        text-shadow: rgb(23, 23, 23) 0.2em 0.2em  0.2em ;
+        text-align: center; 
+        margin: 0; 
+        font-weight: 900;
+    }
+
+    .linha-fina-foto {
+        font-family: 'Open Sans', sans-serif; 
+        font-weight: 700; 
+        color: white; 
+        text-shadow: rgb(23, 23, 23) 0.5em 0.5em 0.5em;
+        text-align: center; 
+        margin: 0; 
+    }
+
+    .maisdog1{
+        font-family: 'Open Sans', sans-serif; 
+        font-weight: 700; 
+        color: #c4170c; 
+        text-align: center; 
+        margin: 0; 
+}
+
+    .credito-foto {
+        font-family: 'Open Sans', sans-serif; 
+        color: white; 
+        text-shadow: rgb(23, 23, 23) 0.2em 0.2em 0.2em;
+        position: absolute; 
+        right: 0; 
+        padding: 5px;
+    }
+
+    .intertitulo {
+        font-size:2.5rem; 
+        font-family: 'Open Sans', sans-serif; 
+        font-weight: 700; 
+        line-height: 3rem;
+        padding: 0;
+        color: #232323;
+    }
+    #intertitulo {
+        display:flex; 
+        justify-content:center; 
+        align-items:center;  
+        margin-top:50px; 
+        padding-left:20px; 
+        padding-right:20px; 
+        background-color:white; 
+    }
+
+    strong {
+        font-weight: bold;
+        /* color: #232323; */
+    }
+
+    .texto-padrao{
+        color: #232323;
+        font-size:18px; 
+        font-family: 'Open Sans', sans-serif; 
+        font-weight: 300; 
+        line-height: 28px;
+        margin-bottom: 20px;
+    }
+    
+    .byline{
+        font-size:16px; 
+        font-family: 'Open Sans', sans-serif; 
+        font-weight: 600; 
+        line-height: 24px;
+        color: #232323;
+        padding-bottom:20px;
+    }
+
+    .frase {
+        background: #ffffff;
+        color: #c4170c;
+        font-family: 'open sans', sans-serif;
+    }
+
+    .image-container {
+        width: 100%; /* Define a largura do container para 100% */
+        margin-top: 30px;
+    }
+
+    .image-container img {
+        width: 100%; /* Define a largura da imagem para 100% */
+        height: auto; /* Mantém a proporção da imagem */
+    }
+
+    .foto-menor-legenda {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        /* padding: 10px; */
+        background-color: rgba(255, 255, 255, 1);
+        color: #232323;
+        text-align: left;
+        font-family: 'Open Sans', sans-serif; 
+        font-size: 0.9rem; 
+        font-weight: 300; 
+        /* line-height: 1rem; */
+    }
+    
+    ul {
+        display: block;
+        list-style-type: disc;
+        margin-bottom: 1 em;
+        margin-left: 0;
+        margin-right: 0;
+        color: #232323;
+    }
+
+    #lista{
+        display:flex; 
+        justify-content:center; 
+        align-items:center;  
+        padding-left:20px; 
+        padding-right:20px; 
+        padding-bottom:20px; 
+        padding-top:30px; 
+        background-color:white;
+    }
+
+ 
+
+    .desktop-video, .mobile-video {
+        display: none;
+    }
+    /* Estilos para dispositivos móveis (menos de 600px) */
+    @media screen and (max-width: 600px) {
+        .titulo-foto {
+            font-size: 3rem; 
+            line-height: 3rem;
+        }
+
+        .linha-fina-foto {
+            font-size: 1.4rem; 
+            line-height: 1.5rem; 
+        }
+
+        .credito-foto {
+            font-size: 0.7rem; 
+        }
+
+        .background-image-capa {
+            background-image: url('https://s3.glbimg.com/v1/AUTH_8b29beb0cbe247a296f902be2fe084b6/2024/desastre-de-tenerife/capafinal.jpg');
+            background-position: center; /* centraliza a imagem de fundo */
+        }
+
+        .estilo-frase {
+            position: relative;
+            margin: 0;
+            width: 90%;
+            font-size: 1.6rem;
+            line-height: 2.2rem;
+            padding-left: 20px;
+            border-left: 4px solid #c4170c;
+            background: #ffffff;
+        }
+    
+        .estilo-frase span {
+            display: block;
+            text-align: right;
+            font-size: 1.1rem;
+            line-height: 1.3rem;
+            margin-top: 10px;
+            background: #ffffff;   
+        }
+
+    }
+
+    /* Estilos para telas entre 601px e 900px */
+    @media screen and (max-width: 900px) and (min-width: 601px) {
+        .titulo-foto {
+            font-size: 32px; 
+            line-height: 38px;
+        }
+
+        .linha-fina-foto {
+            font-size: 26px; 
+            line-height: 32px;
+        }
+
+        .credito-foto {
+            font-size: 16px;
+        }
+
+        .background-image-capa {
+            background-image: url('https://s3.glbimg.com/v1/AUTH_8b29beb0cbe247a296f902be2fe084b6/2024/desastre-de-tenerife/capafinal.jpg');
+            background-position: center; /* centraliza a imagem de fundo */
+        }
+
+        .estilo-frase {
+            position: relative;
+            margin: 0;
+            width: 90%;
+            font-size: 2.0rem;
+            line-height: 2.8rem;
+            padding-left: 20px;
+            border-left: 4px solid #c4170c;
+            background: #ffffff;
+        }
+            
+        .estilo-frase span {
+            display: block;
+            text-align: right;
+            font-size: 1.3rem;
+            line-height: 1.6rem;
+            background: #ffffff;
+        }
+    }
+
+    /* Estilos para desktops (mais de 901px) */
+    @media screen and (min-width: 901px) {
+        .background-image-capa {
+            background-image: url('https://s3.glbimg.com/v1/AUTH_8b29beb0cbe247a296f902be2fe084b6/2024/desastre-de-tenerife/capa-desk.jpg');
+            background-position: center; /* centraliza a imagem de fundo */
+        }
+
+        .titulo-foto {
+            font-size: 4rem;
+            line-height: 4.2rem;
+        }
+
+        .linha-fina-foto {
+            font-size: 2.5rem; 
+            line-height: 3.4rem; 
+        }
+
+        .credito-foto {
+            font-size: 0.7rem; 
+        }
+
+        .estilo-frase {
+            position: relative;
+            margin: 80px auto;
+            width: 60%;
+            font-size: 1.8rem;
+            line-height: 54px;
+            padding-left: 40px;
+            border-left: 2px solid #c4170c;
+        }
+            
+        .estilo-frase span {
+            display: block;
+            text-align: right;
+            font-size: 1.1rem;
+            line-height: 40px;
+            text-transform: uppercase;
+        }
+
+        .foto-menor-legenda {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        /* padding: 10px; */
+        background-color: rgba(255, 255, 255, 1);
+        color: #232323;
+        text-align: left;
+        font-family: 'Open Sans', sans-serif; 
+        font-size: 0.9rem; 
+        font-weight: 300; 
+        padding-bottom: 20px;
+        /* line-height: 1rem; */
+    }
+    }
+    
+   
+    @media (max-width: 539px){
+        body {
+            background-color: white !important;
+        } 
+    }
+
+
+  
+    @media only screen and (max-width: 768px) {
+        .scroll-images-section3 {
+        height: 3000px; /* Ajuste para a duração do scroll */
+    }
+        .scroll-images3 {
+        top: 0;
+    }
+
+    .foto-menor-legenda {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        /* padding: 10px; */
+        background-color: rgba(255, 255, 255, 1);
+        color: #232323;
+        text-align: left;
+        font-family: 'Open Sans', sans-serif; 
+        font-size: 0.7rem; 
+        font-weight: 300; 
+        padding-bottom: 20px;
+        /* line-height: 1rem; */
+    }
+    
+
+    }  
+    
+    .scroll-images-section3 {
+    height: 4000px; /* Ajuste para a duração do scroll */
+    position: relative;
+    background: black;
+  }
+
+  .scroll-images3 {
+    position: sticky;
+    top: 52px;
+    width: 100vw;
+    max-height: 100vh;
+  }
+
+  .frase-texto{
+    padding-bottom: 20px;
+  }
+.video-especiais {
+    display: flex;        /* Ativa o Flexbox */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center;     /* Centraliza verticalmente */
+}
+  
+</style>
+
+
+<!-- foto com título -->
+
+<div style="margin:0; padding:0; overflow:hidden; background-color:white;">
+    <p class="credito-foto">
+        Foto: Derek Ives - 28.mar.1977/AP
+    </p>
+    <div class="background-image-capa" style="width:100%; height:100vh; background-size:cover; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+        <h1 class="titulo-foto">
+            O desastre de Tenerife
+        </h1>
+        <div style="width:90%; display:flex; flex-direction:column; justify-content:center; align-items:center; margin-top:15px;">
+            <p class="linha-fina-foto">Como uma cadeia improvável de eventos resultou no maior acidente aéreo de todos os tempos, há 47 anos —e por que ele não deve mais se repetir.</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- publicidade -->
+<div class="ads-wrapper">
+    <div id="banner_materia_topo"></div>
+</div>
+
+
+
+<!-- credito -->
+
+
+
+
+<!-- texto -->
+
+<section id="secao-paragrafo">  
+<div style="max-width:800px;"> 
+    <p class="byline">Por Daniel Médici, Vitória Coelho, Kayan Albertin, Karla Lencina, Antônio Lima Filho e Guilherme Gomes <br> 13/04/2024
+    </p> 
+
+    <p class="texto-padrao">
+        Em um pequeno aeroporto de uma ilha espanhola no Oceano Atlântico, em meio a um denso nevoeiro, <strong>dois dos maiores aviões do mundo se chocaram.</strong> Uma bola de fogo envolveu as aeronaves. Um incêndio se alastrou e demorou horas para ser controlado. Destroços se espalharam por centenas de metros.
+    </p> 
+    </div> 
+</section> 
+
+
+<!-- Frase -->
+<div class="frase">
+    <blockquote class="estilo-frase">
+        <p class="frase-texto">
+            A tragédia, que deixou 583 mortos e apenas 61 sobreviventes, completou 47 anos em 27 de março. Até hoje, <strong>é o desastre aéreo com o maior número de vidas perdidas em toda a história.</strong>        
+            <span>
+
+            </span>
+        </p>
+    </blockquote>
+</div>
+
+
+
+<!-- texto  -->
+<section id="secao-paragrafo">  
+<div style="max-width:800px;"> 
+    <p class="texto-padrao">
+        Mas por que ele aconteceu? Por que dois Boeings 747, as maiores aeronaves da época, estavam em um aeroporto tão remoto? Por que eles —como viria a ser descoberto mais tarde— dividiam a mesma pista, ao mesmo tempo? E por que um deles tentou decolar mesmo com baixa visibilidade?
+    </p> 
+      
+    <p class="texto-padrao">
+        As respostas estão em <strong>uma cadeia de eventos extremamente improvável,</strong> que deixou lições para a aviação comercial no mundo todo. A implementação delas, desde então, torna praticamente impossível que uma tragédia do mesmo porte se repita.
+    </p>
+</div> 
+</section> 
+
+
+<!-- foto full + legenda -->
+
+<section>
+<div class="image-container">
+     <img src="https://s3.glbimg.com/v1/AUTH_8b29beb0cbe247a296f902be2fe084b6/2024/desastre-de-tenerife/AP19018584328644.jpg" alt="Rodas e demais destroços do Boeing 747 da KLM após acidente em Tenerife (Espanha)  (Derek Ives - 28.mar.1977/AP)">
+</div>
+<div class="foto-menor-legenda">
+    <p class="foto-menor-legenda"> 
+        Rodas e demais destroços do Boeing 747 da KLM após acidente em Tenerife (Espanha)  (Derek Ives - 28.mar.1977/AP)
+    </p>
+</div>
+</section>
+
+
+
+<!-- intertitulo uma nova era da aviação-->
+
+<section id="intertitulo">
+<div style="max-width:800px;"> 
+    <h3 class="intertitulo">
+        Uma nova era da aviação
+    </h3> 
+</div> 
+</section> 
+
+<!-- texto -->
+<section id="secao-paragrafo">  
+<div style="max-width:800px;"> 
+    <p class="texto-padrao">
+            A história começa muito antes, em 1970, com a entrada em operação dos Boeings 747, um modelo de avião revolucionário, que inaugurou uma nova era no transporte aéreo mundial. <strong>Foi a primeira aeronave “widebody” (de corpo largo, em tradução livre), com dois corredores, capaz de transportar mais de 400 passageiros</strong> de uma só vez, a depender da configuração de classes.
+    </p>           
+</div> 
+</section> 
+
+<!-- ADS -->
+
+
+<!-- Frase -->
+<div class="frase">
+    <blockquote class="estilo-frase">
+        <p>
+            “A primeira coisa que tem que ser dita é que, quando o 747 entrou em operação, ele mexeu demais com a imaginação das pessoas, porque ele era duas vezes e meia maior do que a maior aeronave que existia”, afirma o consultor em aviação Gianfranco Beting, autor de livros sobre o modelo e sobre o desastre de Tenerife.
+
+
+            <span>
+
+            </span>
+        </p>
+    </blockquote>
+</div>    
+
+
+<!-- texto -->
+<section id="secao-paragrafo">  
+<div style="max-width:800px;"> 
+    <p class="texto-padrao">
+        “Quando o 747 começa a transportar passageiros, o espanto é provocado primeiro pela capacidade do avião, pelo tamanho, pelo assombro que ele gerava por si só. Mas também pelo que aconteceria em caso de um acidente. <strong>Um único acidente poderia matar 450 pessoas. Imagina uma batida entre dois aviões desse porte?</strong>”, diz.
+    </p> 
+
+    <p class="texto-padrao">
+        Uma das grandes preocupações da <a href="https://g1.globo.com/tudo-sobre/boeing/" style="color:#c4170c;"><strong>Boeing</strong></a> e dos operadores do 747 foi redobrar os cuidados com a segurança, e durante alguns anos o modelo voou sem grandes acidentes. Mesmo o primeiro acidente fatal com um Jumbo —o apelido que o modelo ganhou, por causa de seu tamanho—, em Nairóbi, em 1974, provocou 59 mortes e teve 98 sobreviventes, e foi causado por um erro de operação.
+    </p> 
+</div> 
+</section> 
+
+<!-- scrolly 01 mapa explica -->
+<div class="flourish-embed flourish-interactive diagram" data-src="visualisation/17493720?685449" style="margin-bottom: 20px;"><script src="https://public.flourish.studio/resources/embed.js"></script></div>
+
+
+
+
+<!-- intertitulo a tragédia -->
+<section id="intertitulo">
+<div style="max-width:800px;"> 
+    <h3 class="intertitulo">
+        A tragédia
+    </h3> 
+</div> 
+</section> 
+
+
+
+<!-- texto com link -->
+<section id="secao-paragrafo">  
+<div style="max-width:800px;"> 
+    <p class="texto-padrao">
+        Em 27 de março de 1977, o <a href="https://g1.globo.com/tudo-sobre/boeing/" style="color:#c4170c;"><strong>Boeing</strong></a> 747 batizado de Clipper Victor, da companhia norte-americana Pan Am, decolou de Los Angeles com escala em Nova York e com destino ao aeroporto de Gran Canaria, nas Ilhas Canárias. <strong>Ele havia sido o primeiro 747 da história a operar um voo comercial, e encerraria sua vida útil de maneira trágica.</strong>
+    </p> 
+
+    <p class="texto-padrao">
+        No mesmo dia, um outro 747, da KLM, saiu de Amsterdã, também com destino a Gran Canaria. O arquipélago, no Oceano Atlântico, é um destino popular de férias no início da estação quente no Hemisfério Norte.
+    </p> 
+
+    <p class="texto-padrao">
+      <strong>O comandante holandês, Jacob van Zanten, era uma celebridade na empresa,</strong> tendo dado cursos para outros pilotos e até estrelado uma campanha publicitária que exaltava a pontualidade da companhia aérea.
+    </p> 
+    <p class="texto-padrao">
+        A partir daí, uma sequência inacreditável de eventos iria culminar em uma tragédia inconcebível. Os acontecimentos se desenrolam da seguinte forma:
+    </p> 
+</div> 
+</section> 
+
+<!-- fotofull + legenda-->
+<!--  <section>
+<div class="image-container">
+    <img src="https://s3.glbimg.com/v1/AUTH_8b29beb0cbe247a296f902be2fe084b6/2024/desastre-de-tenerife/AP7703300413.jpg" alt="Torre de controle do aeroporto de Los Rodeos, em Tenerife (Espanha) - (Paul Roque - 30.mar.1977/AP)">
+</div>
+<div class="foto-menor-legenda">
+     <p> 
+        Torre de controle do aeroporto de Los Rodeos, em Tenerife (Espanha) - (Paul Roque - 30.mar.1977/AP)
+    </p>
+</div>
+</section> -->
+
+
+
+
+
+
+<!-- texto em bullets -->
+
+<section id="lista"> 
+<div style="max-width:800px;"> 
+    <ul>
+        <li>
+            <p class="texto-padrao">
+                No início da tarde, <strong>um movimento separatista explode uma pequena bomba no aeroporto de Gran Canaria, que é fechado para pousos e decolagens, </strong>até que as forças de segurança se certifiquem de que não há mais risco de atos terroristas. Todos os voos são redirecionados para o aeroporto de Los Rodeos, na ilha vizinha de Tenerife. <strong>Não fosse o atentado, o desastre não teria ocorrido.</strong>
+            </p>
+
+
+        </li>
+        <li>
+            <p class="texto-padrao">
+                O aeroporto de Los Rodeos não comportava uma quantidade tão grande de aviões, e a torre de controle não estava acostumada a lidar com esse volume de tráfego.  <strong>As aeronaves estacionadas são tantas que bloqueiam a pista onde as aeronaves taxiavam</strong>, de forma que, para decolar, elas teriam que taxiar pela pista principal. <strong>Não fosse isso, o desastre não teria ocorrido.</strong>
+            </p>
+        </li>
+        <li>
+            <p class="texto-padrao">
+                Uma vez em solo, o comandante Van Zanten, da KLM, decide abastecer sua aeronave com 55 mil litros de combustível. O procedimento não era necessário, mas  <strong>especula-se que Van Zanten queria economizar tempo e evitar que, até chegar em Gran Canaria, o voo de volta para Amsterdã fosse cancelado </strong> por exceder o expediente da tripulação. Nesse meio tempo, Gran Canaria é reaberto e o Pan Am já está pronto para decolar, mas o KLM bloqueia sua passagem, e a tripulação americana precisa esperar o término do reabastecimento. <strong>Não fosse isso, o desastre não teria ocorrido.</strong>
+            </p>
+        </li>
+        <li> 
+            <p class="texto-padrao">
+                Quando o KLM está finalmente pronto para decolar, <strong>uma névoa começa a se formar em Los Rodeos.</strong> “Esse tipo de fenômeno é muito comum em ilhas oceânicas, eles se formam e se dispersam muito rapidamente”, explica Beting. As condições de visibilidade se deterioram e ficam cada vez piores. <strong>O aeroporto também não tinha radar de solo</strong> para indicar a posição dos aviões em pista. <strong>Se a torre de controle tivesse fechado a pista, o desastre não teria ocorrido.</strong>
+            </p>
+        </li>
+        <li>
+            <p class="texto-padrao">
+                Enquanto o KLM taxia em direção à outra ponta da pista, o Pan Am recebe a instrução para entrar também na pista principal, sair pelo acesso C3 e esperar lá a decolagem do KLM. Por motivos que não estão inteiramente claros, <strong>o Pan Am passa pelo acesso C3 e se dirige ao acesso C4. Não fosse isso, o desastre não teria ocorrido.</strong>
+            </p>
+        </li>
+        <li> 
+            <p class="texto-padrao">
+                <strong>O comandante Van Zanten decide iniciar o procedimento de decolagem, </strong>mas seu copiloto expressa dúvidas sobre a autorização e pede confirmação da torre para a decolagem. <strong>A conversa se desenrola fora da fraseologia padrão da aviação, e com diversas interferências no rádio,</strong> já que a torre estava se comunicando simultaneamente com o Pan Am. Mesmo com copiloto e engenheiro de voo incertos da autorização, Van Zanten coloca as manetes do motor em posição de decolagem. <strong>Não fossem os problemas de comunicação e o receio da equipe em contradizer o comandante, o desastre não teria ocorrido.</strong>
+            </p>
+        </li>
+    </ul>
+</div>
+</section>
+
+<!-- texto -->
+<section id="secao-paragrafo">  
+<div style="max-width:800px;"> 
+    <p class="texto-padrao">
+        <a href="https://g1.globo.com/fantastico/noticia/2017/04/apos-40-anos-sobrevivente-relembra-maior-tragedia-da-historia-da-aviacao.html" style="color:#c4170c;"><strong>Em 2017, o Fantástico entrevistou uma sobrevivente do acidente e produziu a animação que você vê nesta reportagem.</strong></a>
+    </p>
+    <p class="texto-padrao">
+        Nesse momento, <strong>a névoa é tão densa que a visibilidade na pista é de menos de 100 metros.</strong> A torre de controle não consegue ver os aviões, e as tripulações só veem uns aos outro quando a colisão é iminente.
+    </p> 
+</div> 
+</section> 
+
+
+
+<!-- Scrolly 02-->    
+<div class="center-container">
+<div class="flourish-embed flourish-interactive diagram" data-src="visualisation/17475229?1120666" style="padding-left: 20%; margin-bottom: 50px;">
+    <script src="https://public.flourish.studio/resources/embed.js"></script>
+</div>
+</div>
+
+<!-- frase -->
+<div class="frase">
+    <blockquote class="estilo-frase">
+        <p>
+        O comandante da Pan Am tenta jogar seu avião para a grama. Enquanto isso, Van Zanten, da KLM, puxa o nariz da aeronave para cima, mesmo com velocidade insuficiente para que o avião consiga decolar.<strong> O 747, reabastecido e pesado demais, até chega a sair do solo, mas se choca contra o teto do Pan Am atravessado na pista. </strong>Os tanques explodem, e um rastro de destroços se espalha por cerca de 500 metros.
+        <span>
+
+        </span>
+        </p>
+    </blockquote>
+</div>
+
+<!-- ADS -->
+
+<!-- texto  -->
+<section id="secao-paragrafo">  
+<div style="max-width:800px;"> 
+    <p class="texto-padrao">
+        Todos os 248 ocupantes do KLM morreram. Já no Pan Am, foram 335 vítimas entre os 396 ocupantes. “Só sobreviveram os que estavam na parte da frente do avião”, aponta Beting – incluindo comandante, primeiro oficial e engenheiro de voo.
+    </p> 
+</div> 
+</section> 
+
+
+<!-- Scrolly 03-->    
+<div class="scroll-images-section3" id="scroll-images-control-3">
+    <canvas class="scroll-images3" id="scroll-images-3"></canvas>
+  </div>
+<!-- <div style="height: 2000vh;">
+        <div id="scrolly-video-desktop3" class="desktop-video"></div>
+        <div id="scrolly-video-mobile3" class="mobile-video"></div>
+</div> -->
+
+<!-- intertitulo -->
+<section id="intertitulo">
+<div style="max-width:800px;"> 
+    <h3 class="intertitulo">
+        Lições
+    </h3> 
+</div> 
+</section> 
+
+
+<!-- texto  -->
+<section id="secao-paragrafo">  
+<div style="max-width:800px;"> 
+    <p class="texto-padrao">
+        A investigação oficial, a cargo das autoridades espanholas, atribuiu a responsabilidade final do acidente à tripulação da KLM, por ter iniciado a decolagem sem autorização da torre de controle. Essa conclusão foi contestada por investigadores holandeses, que publicaram um relatório próprio.
+    </p> 
+
+    <p class="texto-padrao">
+        Mais importante que as responsabilidades, na aviação, porém, são os aprendizados.
+    </p> 
+</div> 
+</section> 
+
+
+<!-- foto full legenda -->
+<section>
+<div class="image-container">
+    <img src="https://s3.glbimg.com/v1/AUTH_8b29beb0cbe247a296f902be2fe084b6/2024/desastre-de-tenerife/AP7703270392.jpg" alt="Motor de Boeing 747 da Pan Am após acidente em Tenerife (Espanha)  (Derek Ives  30.mar.1977/AP)">
+</div>
+
+<div class="foto-menor-legenda">
+    <p> 
+        Motor de Boeing 747 da Pan Am após acidente em Tenerife (Espanha)  (Derek Ives  30.mar.1977/AP)
+    </p>
+</div>
+</section>
+
+<!-- frase -->
+<div class="frase">
+    <blockquote class="estilo-frase">
+        <p>
+            “O acidente de Tenerife não deu apenas uma lição. Ele deu várias pequenas lições que foram sendo implementadas gradativamente”, afirma Beting. “Por exemplo, a partir daí descobriu-se a necessidade de controlar melhor as operações de solo com baixa visibilidade.”
+            <span>
+
+            </span>
+        </p>
+    </blockquote>
+</div>
+
+<!-- ADS -->    
+
+<!-- texto  -->
+<section id="secao-paragrafo">  
+<div style="max-width:800px;"> 
+    <p class="texto-padrao">
+        Um radar de solo foi instalado em Los Rodeos, aeroporto que logo se tornou obsoleto, com a abertura de um novo terminal em Tenerife.
+    </p> 
+    <p class="texto-padrao">
+        Acima de tudo, porém, <strong>as maiores lições se concentraram na comunicação e na postura dos operadores.</strong>
+    </p> 
+    <p class="texto-padrao">
+        Uma maior ênfase foi dada pelos organismos internacionais na fluência do inglês por parte dos pilotos e operadores de tráfego aéreo. Além disso, <strong>palavras dúbias, como  “Takeoff” (decolagem), “OK” e “Roger” (uma confirmação de mensagem recebida) foram restringidas na comunicação entre cabine e torre.</strong>
+    </p> 
+    <p class="texto-padrao">
+        Também para evitar ruídos,<strong> passou-se a adotar a prática de cotejamento,</strong> ou seja, as partes devem repetir as mensagens recebidas para confirmar que as entenderam.
+    </p> 
+    <p class="texto-padrao">
+        O papel do comandante também foi revisto. <strong>Copilotos e outros membros da tripulação passaram a ser encorajados a questionar seus superiores hierárquicos, com as decisões na cabine sendo tomadas em conjunto.</strong>
+    </p> 
+    <p class="texto-padrao">
+        Além disso, especulou-se que o comportamento do comandante Van Zanten tenha sido influenciado por sua dedicação quase exclusiva, meses antes do acidente, a treinamentos em simulador – apesar de sua experiência, isso pode tê-lo deixado<strong> mais propenso a ignorar instruções da torre de controle.</strong>
+    </p> 
+</div> 
+</section> 
+
+<!-- frase -->
+<div class="frase">
+    <blockquote class="estilo-frase">
+        <p>
+            Para Beting, o desastre em 1977 corrigiu uma série de procedimentos que começaram a ficar obsoletos quando os aviões se tornaram maiores e o fluxo de passageiros aumentou exponencialmente: “De repente, aeroportos que faziam quatro operações de pouso e decolagem por hora passaram a fazer quarenta”.
+            <span>
+
+            </span>
+        </p>
+    </blockquote>
+</div>    
+    
+<!-- FOTO FULL + LEGENDA -->
+<section>
+<div class="image-container">
+    <img src="https://s3.glbimg.com/v1/AUTH_8b29beb0cbe247a296f902be2fe084b6/2024/desastre-de-tenerife/AP7703300405.jpg" alt="Caixões com as vítimas do acidente em Tenerife, o pior da história da aviação (Derek Ives - 30.mar.1977/AP)">
+</div>
+<div class="foto-menor-legenda">
+    <p> 
+        Caixões com as vítimas do acidente em Tenerife, o pior da história da aviação (Derek Ives - 30.mar.1977/AP)
+    </p>
+</div>
+</section>    
+
+<!-- texto com link -->
+<section id="secao-paragrafo">  
+<div style="max-width:800px;"> 
+    <p class="texto-padrao">
+        Atualmente, <strong>a formação dos pilotos inclui a disciplina de “crew resource management”, ou gerenciamento de recursos da tripulação</strong>, com práticas aprendidas ao longo de décadas de estudos de acidentes.
+    </p> 
+
+    <p class="texto-padrao">
+        Além disso, equipamentos de última geração permitem controlar a posição das aeronaves em solo com uma precisão de centímetros.
+    </p> 
+
+    <p class="texto-padrao">
+        Não à toa, <strong>em anos recentes, 2017 e 2013, a aviação comercial não registrou nem uma única morte no mundo envolvendo aviões turbojato,</strong> algo impensável nos anos 1970. 
+    </p> 
+</div> 
+</section> 
+
+<!-- video -->
+<section style="margin-top: 20px; margin-bottom:50px;"><div class="video-especiais" id="player-wrapper"></div></section>
+
+
+<!-- FLOURISH -->
+<div class="flourish-embed flourish-timeline" data-src="visualisation/17444021?685449">
+    <script src="https://public.flourish.studio/resources/embed.js">
+    </script>
+</div>
+
+
+
+<!-- script scrolly com foto -->
+
+
+
+<script>
+    const html3 = document.documentElement;
+    const control3 = document.getElementById('scroll-images-control-3');
+    const canvas3 = document.getElementById("scroll-images-3");
+    const context3 = canvas3.getContext("2d");
+  
+    var viewportHeight3 = window.innerHeight;
+    var viewportWidth3 = window.innerWidth;
+  
+    const frameStart3 = 375; // Define o primeiro frame
+    const frameEnd3 = 1060; // Define o último frame
+    const frameCount3 = frameEnd3 - frameStart3 + 1; // Calcula o total de frames
+  
+    function isMobile3() {
+      const regex3 = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+      return regex3.test(navigator.userAgent);
+    }
+  
+    function isMobileWidth3() {
+      const minWidth3 = 768;
+      return window.innerWidth < minWidth3 || screen.width < minWidth3;
+    }
+  
+    const currentFrameDesktop3 = index3 => (
+      `https://s3.glbimg.com/v1/AUTH_8b29beb0cbe247a296f902be2fe084b6/2024/desastre-de-tenerife/desk/desk_${index3.toString().padStart(6, '0')}.jpg`
+    );
+  
+    const currentFrameMobile3 = index3 => (
+      `https://s3.glbimg.com/v1/AUTH_8b29beb0cbe247a296f902be2fe084b6/2024/desastre-de-tenerife/mob/mob_${index3.toString().padStart(6, '0')}.jpg`
+    );
+  
+    const preloadImages3 = () => {
+      for (let i3 = 0; i3 < frameCount3; i3++) {
+        const img3 = new Image();
+        img3.src = currentFrameDesktop3(i3 + frameStart3);
+        const imgMob3 = new Image();
+        imgMob3.src = currentFrameMobile3(i3 + frameStart3);
+      }
+    };
+  
+    const img3 = new Image();
+    img3.src = isMobile3() || isMobileWidth3() ? currentFrameMobile3(frameStart3) : currentFrameDesktop3(frameStart3);
+  
+    canvas3.width = isMobile3() || isMobileWidth3() ? viewportWidth3 : viewportWidth3;
+    canvas3.height = isMobile3() || isMobileWidth3() ? viewportHeight3 : viewportHeight3;
+  
+    img3.onload = function() {
+      context3.drawImage(img3, 0, 0, viewportWidth3, viewportHeight3);
+    };
+  
+    const updateImage3 = index3 => {
+      const actualFrame3 = index3 + frameStart3;
+      img3.src = isMobile3() || isMobileWidth3() ? currentFrameMobile3(actualFrame3) : currentFrameDesktop3(actualFrame3);
+      context3.drawImage(img3, 0, 0, viewportWidth3, viewportHeight3);
+    };
+  
+    const changeImage3 = () => {
+      const scrollTop3 = window.pageYOffset - control3.offsetTop;
+      const maxScrollTop3 = control3.getBoundingClientRect().height - scrollTop3;
+      const scrollFraction3 = scrollTop3 / maxScrollTop3;
+      let frameIndex3 = Math.min(
+        frameEnd3 - 1,
+        Math.ceil(scrollFraction3 * frameEnd3)
+      );
+      frameIndex3 = frameIndex3 < 0 ? 0 : frameIndex3;
+  
+      requestAnimationFrame(() => updateImage3(frameIndex3));
+    };
+  
+    preloadImages3();
+  
+    window.addEventListener('scroll', () => {  
+      viewportWidth3 = window.innerWidth;
+      viewportHeight3 = window.innerHeight;
+      changeImage3();
+    });
+  
+    window.addEventListener("resize", () => {
+      changeImage3();
+    });
+  
+    document.addEventListener("DOMContentLoaded", function() {
+      updateImage3(0);
+    });
+  </script>
+
+<script src="https://s3.glbimg.com/v1/AUTH_e1b09a2d222b4900a437a46914be81e5/api/stable/web/api.min.js"></script>
+<script>
+function onPlayerAvailable() {
+    const element = document.querySelector('#player-wrapper');
+    var player = new WM.Player({
+      videosIDs: 12508585
+    });
+
+    player.attachTo(element);
+  }
+
+  WM.playerAvailable.then(onPlayerAvailable)</script>
+
+
+
+<!-- TEALIUM -->
+<script type="text/javascript">
+    var utag_data = utag_data || {};
+    utag_data.structure_tree = ["G1", "Mundo"];
+    utag_data.tipo_pagina = '';
+    utag_data.page_name = 'materia';
+    utag_data.ad_unit = 'tvg_G1\/Mundo';
+    utag_data.ad_positions = JSON.stringify(
+        {
+            mobile: ['banner_materia_topo', 'banner_materia'],
+            desktop: ['banner_materia_topo', 'banner_materia']
+        });
+</script>
+<script type="text/javascript">
+        (function(a, b, c, d) {
+                a = '//s3.glbimg.com/v1/AUTH_acd8438fd650434baa93efc372c066a1/libs/lib-pub-relay/g1/prod/lib-pub-relay-g1-latest.js';
+                b = document;
+                c = 'script';
+                d = b.createElement(c);
+                d.src = a;
+                d.type = 'text/java' + c;
+                d.async = true;
+                a = b.getElementsByTagName(c)[0];
+                a.parentNode.insertBefore(d, a);
+        })();
+</script>
+
+
