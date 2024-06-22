@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - calc trabalho</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Discrepância de Empregos e Salários</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Discrepância de Empregos e Salários</h1>
+        
+        <div class="form-group">
+            <label>Selecione seu gênero:</label>
+            <div class="radio-group">
+                <input type="radio" id="gender_masc" name="gender" value="masc">
+                <label for="gender_masc"><img src="https://public.flourish.studio/uploads/685449/057ef900-9c11-45a0-86c7-136527d13ebe.png" alt="Homem"> Masculino</label>
+                
+                <input type="radio" id="gender_fem" name="gender" value="fem">
+                <label for="gender_fem"><img src="https://public.flourish.studio/uploads/685449/4c41d4dd-6893-4eb4-ae91-2d4d58a55581.png" alt="Mulher"> Feminino</label>
+            </div>
+        </div>
+      
+
+
+
+        <div class="form-group">
+            <label for="group">Selecione o grupo:</label>
+            <input id="group" placeholder="Digite para buscar...">
+            <div id="groupAutocomplete" class="autocomplete-suggestions"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="area">Selecione a área:</label>
+            <input id="area" placeholder="Digite para buscar...">
+            <div id="areaAutocomplete" class="autocomplete-suggestions"></div>
+        </div>
+
+        <button id="submitBtn">Ver Discrepância</button><br>
+        
+        <div id="results" style="display: none;">
+            <h2 id="resultHeader"></h2>
+            <p id="occupancy"></p>
+            <canvas id="occupancyChart"></canvas>
+            <p id="salary"></p>
+            <canvas id="salaryChart"></canvas>
+            <p id="comparison"></p>
+<!--             <canvas id="comparisonChart"></canvas> -->
+            <button id="resetBtn">Fazer Nova Busca</button>
+        </div>
+    </div>
+</body>
+</html>
+<!-- partial -->
+  <script src='https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels'></script>
+<script src='https://cdn.jsdelivr.net/npm/chart.js'></script><script  src="./script-js.js"></script>
+
+</body>
+</html>
