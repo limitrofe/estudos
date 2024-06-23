@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&family=Playwrite+NG+Modern:wght@100..400&display=swap');
+
+:root{
+ --orange: #FF9F1C;
+ --red: #E71D36;
+ --blue: #77e4e8;
+  --paleblue: #80A1C1;
+  --green: #1b9f4b;
+  --cream: #F6D8AE;
+  --darkgrey: #252323;
+  --dark: #011627;
+  --light: #c4edff;
+  --boxborder: 6px;
+  --ballborder: 12px;
+  text-wrap: balance;
+}
+
+html {
+  font-size: 0.8em;
+  color: var(--dark);
+  background-color: var(--darkgrey);
+  text-align: left;
+  text-wrap: pretty;
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+
+
+}
+a {
+  color: var(--dark);
+}
+svg:hover{
+  background-color: var(--light);
+}
+h3:hover {
+  background-color: var(--light);
+}
+li img:hover {
+  border-color: var(--light);
+}
+
+canvas {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100px;
+  height: 75px;
+}
+
+.anarchy {
+  position: absolute;
+  visibility: hidden;
+}
+img {
+  width: 200px;
+  height: 200px;
+  display: block;
+  border-radius: 100%;
+  border: var(--ballborder) solid var(--red); 
+}
+.photo img{
+  width: 120px;
+  height: 120px;
+  border: var(--ballborder) solid var(--orange); 
+}
+#intro {
+  background-color: var(--orange);
+  font-size: 18px;
+  width: 180px;
+  padding: 10px;
+  font-family: 'Carter One', cursive; font-size: 22px;
+  border: var(--boxborder) solid var(--dark); 
+}
+h1 {
+  width: 320px;
+  height: 140px;
+  padding: 10px 10px 10px 10px;
+  font-family: 'Modak', cursive;
+  font-size: 5rem;
+  background-color: var(--orange);
+  border: var(--boxborder) solid var(--dark); 
+}
+
+h2 {
+  width: 200px;
+  height: 100px;
+  padding: 10px 10px 10px 10px;
+  font-family: 'Modak', cursive;
+  font-size: 3.5rem;
+  background-color: var(--orange);
+  border: var(--boxborder) solid var(--dark); 
+}
+h3 {
+  width: 230px;
+  padding: 10px 10px 10px 10px;
+  font-family: 'Carter One', cursive;  
+  font-size: 3rem;
+  background-color: var(--blue);
+  border: var(--boxborder) solid var(--dark); 
+}
+.smaller {
+  width: 240px;
+}
+svg {
+  fill: var(--red);
+  background-color: var(--dark);
+  display: block;
+  border-radius: 100%; 
+}
+li > div {
+  background-color: var(--green);
+  width: 180px;
+  padding: 10px;
+  font-family: 'Carter One', cursive; font-size: 1.1rem;
+  border: var(--boxborder) solid var(--dark); 
+}
+p {
+  margin-bottom: 10px;
+}
