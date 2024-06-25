@@ -1,0 +1,106 @@
+/* styles.css */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.header {
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.header-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.search-box {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+    z-index: 1;
+}
+
+.search-box button {
+    margin: 10px;
+    padding: 20px;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px black; /* Melhora a legibilidade do texto sobre imagens */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    flex-grow: 1;
+    min-width: 150px;  /* Garante um tamanho mínimo para os botões */
+}
+
+.search-box button:hover {
+    opacity: 0.8;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.item {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    width: 200px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.item img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* Media Queries */
+@media (max-width: 600px) {
+    .search-box {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .search-box button {
+        flex: 0 1 45%;  /* Permite que cada botão ocupe cerca de 45% da largura da tela */
+    }
+}
+
+@media (min-width: 601px) {
+    .search-box {
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    .search-box button {
+        flex: 0 1 22%;  /* Permite que cada botão ocupe cerca de 22% da largura do container */
+    }
+}
