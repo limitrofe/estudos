@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+body {
+    font-family: "Open Sans", sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    text-wrap: balance;
+}
+
+.container {
+    max-width: 600px;
+    width: 100%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+p {
+    font-size: 16px;
+    color: #666;
+}
+
+.credit {
+    font-style: italic;
+    color: #999;
+}
+
+.quiz-item {
+    margin-bottom: 20px;
+}
+
+.quiz-item audio {
+    display: block;
+    margin: 0 auto 10px;
+    width: 100%;
+}
+
+audio::-webkit-media-controls-panel {
+    background-color: #eaeaea;
+    color: #232323;
+}
+
+audio::-webkit-media-controls-timeline,
+audio::-webkit-media-controls-current-time-display,
+audio::-webkit-media-controls-time-remaining-display {
+    color: #232323;
+}
+
+.quiz-item label {
+    display: block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+
+
+.correct-answer {
+    background-color: #d4edda;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.wrong-answer {
+    background-color: #f8d7da;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #c4170c;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    margin: 10px;
+}
+
+button:hover {
+    background-color: #620b05;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+#progress {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #656565;
+}
+
+#confetti-canvas {
+    pointer-events: none;
+}
+
+.quiz-question {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Termos Africanos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Quais palavras em português brasileiro surgiram a partir destes termos de línguas africanas?</h1>
+        <p>Ouça palavras de línguas africanas e tente adivinhar: elas deram origem a quais termos do português brasileiro?</p>
+        <p class="credit">A voz é da angolana Madalena Vidal, em gravações enviadas por ela ao g1.</p>
+        <div id="quiz"></div>
+        <button id="submit-btn" onclick="checkAnswer()">Enviar</button>
+        <button id="next-btn" style="display: none;">Próxima</button>
+        <div id="result"></div>
+
+        <p id="progress"></p>
+        <canvas id="confetti-canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></canvas>
+    </div>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+</body>
+</html>
