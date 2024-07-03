@@ -1,0 +1,296 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+
+.header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 70vh; /* Ocupa no máximo 70% da altura da viewport */
+    box-sizing: border-box;
+}
+
+.header-image {
+    flex: 0 0 50%;
+    max-width: 50%;
+    height: 100%; /* Garante que a imagem ocupe toda a altura do header */
+    overflow: hidden; /* Esconde partes da imagem que ultrapassam */
+}
+
+.header-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Mantém a proporção da imagem e a recorta para preencher */
+    border-radius: 8px;
+}
+
+.header-content {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.header-content h1 {
+    margin: 0;
+    font-size: 36px;
+    color: #007aff;
+}
+
+.header-content h3 {
+    margin: 10px 0;
+    font-size: 24px;
+    color: #555;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(10, 12px);
+    gap: 4px;
+    margin-top: 20px;
+}
+
+.grid-square {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+.grid-square.cumpriu {
+    background-color: #4caf50; /* Verde */
+}
+
+.grid-square.em-parte {
+    background-color: #ffeb3b; /* Amarelo */
+}
+
+.grid-square.nao-cumpriu {
+    background-color: #f44336; /* Vermelho */
+}
+
+.filter-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.filter-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #007aff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-button .icon {
+    font-size: 18px;
+}
+
+.filter-button:hover {
+    background-color: #005bb5;
+}
+
+.filter-button[data-filter="cumpriu"] {
+    background-color: #4caf50;
+}
+
+.filter-button[data-filter="cumpriu"]:hover {
+    background-color: #388e3c;
+}
+
+.filter-button[data-filter="em-parte"] {
+    background-color: #ffeb3b;
+    color: #333;
+}
+
+.filter-button[data-filter="em-parte"]:hover {
+    background-color: #fbc02d;
+}
+
+.filter-button[data-filter="nao-cumpriu-ainda"] {
+    background-color: #f44336;
+}
+
+.filter-button[data-filter="nao-cumpriu-ainda"]:hover {
+    background-color: #d32f2f;
+}
+
+#promessasContainer {
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+.temaGroup {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.temaGroup h2 {
+    margin: 0;
+    padding: 20px;
+    background-color: #fff;
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+    border-left: 5px solid #007aff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.temaGroup h2:hover {
+    background-color: #007aff;
+    color: #fff;
+}
+
+.swiper-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 24px;
+    padding: 20px 0;
+}
+
+.swiper-wrapper {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start; /* Alinha os itens pelo topo */
+}
+
+.swiper-slide {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinha os itens pelo topo */
+}
+
+.promessaBox {
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    margin: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.promessaBox.cumpriu {
+    border-left: 5px solid #4caf50; /* Verde */
+}
+
+.promessaBox.em-parte {
+    border-left: 5px solid #ffeb3b; /* Amarelo */
+}
+
+.promessaBox.nao-cumpriu {
+    border-left: 5px solid #f44336; /* Vermelho */
+}
+
+.promessaBox:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+}
+
+.promessaBox p {
+    margin: 10px 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.promessaBox button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007aff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.promessaBox button:hover {
+    background-color: #005bb5;
+}
+
+.stats {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stats p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+
+
+@media (max-width: 767px) {
+    .promessaBox {
+        width: 250px; /* 250 pixels de largura no mobile */
+    }
+    .header {
+        flex-direction: column;
+    }
+    .header-image, .header-content {
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .promessaBox {
+        width: 320px; /* 320 pixels de largura no desktop */
+    }
+}
+
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.lightbox-content {
+    position: relative;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lightbox .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.lightbox .close:hover {
+    color: #007aff;
+}

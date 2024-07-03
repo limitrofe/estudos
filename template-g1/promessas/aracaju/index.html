@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promessas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-image">
+            <img src="https://images.unsplash.com/photo-1719715769983-416ca174a405?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Imagem de Capa">
+        </div>
+        <div class="header-content">
+            <h1>Título Principal</h1>
+            <h3>Subtítulo Informativo</h3>
+            <canvas id="promessasChart" width="400" height="200"></canvas>
+        </div>
+    </header>
+    
+    <div class="filter-container">
+        <button class="filter-button" data-filter="todos" id="filter-todos">
+            <i class="icon fas fa-list"></i> Todos
+        </button>
+        <button class="filter-button" data-filter="cumpriu" id="filter-cumpriu">
+            <i class="icon fas fa-check-circle"></i> Cumpriu
+        </button>
+        <button class="filter-button" data-filter="em-parte" id="filter-em-parte">
+            <i class="icon fas fa-exclamation-circle"></i> Em Parte
+        </button>
+        <button class="filter-button" data-filter="nao-cumpriu-ainda" id="filter-nao-cumpriu">
+            <i class="icon fas fa-times-circle"></i> Não Cumpriu
+        </button>
+    </div>
+    <div id="promessasContainer">
+        <!-- Aqui serão inseridos os grupos das promessas -->
+    </div>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox-content">
+            <span class="close">&times;</span>
+            <p id="lightboxText"></p>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
