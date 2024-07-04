@@ -1,6 +1,6 @@
 /* styles.css */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Open Sans', 'Helvetica', 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f9;
@@ -8,6 +8,7 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    text-wrap: balance;
 }
 
 .header {
@@ -22,14 +23,22 @@ body {
     display: block;
 }
 
-h1 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-size: 2.5em;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+.desktop {
+    display: none;
+}
+
+.mobile {
+    display: block;
+}
+
+@media (min-width: 601px) {
+    .desktop {
+        display: block;
+    }
+
+    .mobile {
+        display: none;
+    }
 }
 
 .search-box {
@@ -38,25 +47,30 @@ h1 {
     justify-content: center;
     margin-top: 20px;
     z-index: 1;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-box input {
+    padding: 10px;
+    border: 2px solid #a5147d;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 300px;
 }
 
 .search-box button {
-    margin: 10px;
-    padding: 20px;
-    background-size: cover;
-    background-position: center;
-    color: white;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px black; /* Melhora a legibilidade do texto sobre imagens */
+    padding: 10px 20px;
+    background-color: #ffc700;
+    color: #a5147d;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    flex-grow: 1;
-    min-width: 150px;  /* Garante um tamanho mínimo para os botões */
+    font-size: 16px;
 }
 
 .search-box button:hover {
-    opacity: 0.8;
+    background-color: #e6b800;
 }
 
 .gallery {
@@ -79,7 +93,36 @@ h1 {
 
 .item img {
     width: 100%;
-    border-radius: 8px;
+    height: auto;
+    border-radius: 8px 8px 0 0;
+}
+
+.item button {
+    margin-top: 5px;
+    padding: 10px 15px;
+    background-color: #a5147d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.item button:hover {
+    background-color: #8e1268;
+}
+
+.hidden {
+    display: none;
+}
+
+.suggestion-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+    color: #333;
+    width: 100%;
 }
 
 /* Media Queries */

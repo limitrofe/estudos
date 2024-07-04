@@ -8,16 +8,15 @@
 </head>
 <body>
 <div class="header">
-    <img src="images/capa-saojoaoreceitas.png" alt="Festa Junina" class="header-image">
-    <h1 style="font-size: 4rem; margin-top: 0.001%;">Calculadora de Itens<br>para Festa Junina</h1>
+    <img src="images/capa-saojoaoreceitas.jpg" alt="Festa Junina" class="header-image desktop">
+    <img src="images/capa-saojoaoreceitas-mobile.jpg" alt="Festa Junina" class="header-image mobile">
     <div class="search-box">
-        <button onclick="calculate(10)" style="background-image: url('images/imagem-10-pessoas.jpg');">Até 10 pessoas</button>
-        <button onclick="calculate(20)" style="background-image: url('images/imagem-11-20-pessoas.jpg');">Entre 11 e 20 pessoas</button>
-        <button onclick="calculate(30)" style="background-image: url('images/imagem-21-30-pessoas.jpg');">Entre 21 e 30 pessoas</button>
-        <button onclick="calculate(40)" style="background-image: url('images/imagem-31-40-pessoas.jpg');">Entre 31 e 40 pessoas</button>
+        <input type="number" id="guestInput" placeholder="Digite o número de participantes">
+        <button onclick="handleInput()">Calcular</button>
     </div>
 </div>
-<div id="results" class="gallery"></div>
+<div id="response" class="hidden"></div>
+<div id="results" class="gallery hidden"></div>
 <script src="script.js"></script>
 </body>
 </html>
