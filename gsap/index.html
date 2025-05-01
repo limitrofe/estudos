@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Estudo GSAP com todos os plugins</title>
+
+  <!-- GSAP Core -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
+
+  <!-- Plugins -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/Flip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/Draggable.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/MotionPathPlugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/SplitText.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/DrawSVGPlugin.min.js"></script>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #111;
+      color: white;
+      padding: 50px;
+    }
+
+    section {
+      margin-bottom: 120px;
+    }
+
+    .box {
+      width: 100px;
+      height: 100px;
+      background: red;
+      margin-bottom: 20px;
+    }
+
+    .draggable {
+      width: 100px;
+      height: 100px;
+      background: orange;
+      cursor: move;
+    }
+
+    #motionPathCircle {
+      fill: cyan;
+      r: 10;
+    }
+
+    svg {
+      width: 100%;
+      height: 200px;
+      margin-top: 40px;
+    }
+
+    .text-split {
+      font-size: 2rem;
+      color: white;
+    }
+
+    .flip-container {
+      display: flex;
+      gap: 20px;
+    }
+
+    .flip-box {
+      width: 80px;
+      height: 80px;
+      background: #00f;
+      cursor: pointer;
+    }
+
+    .flip-box.big {
+      transform: scale(1.3);
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- gsap.to -->
+  <section>
+    <h2>1. gsap.to</h2>
+    <div class="box" id="boxTo"></div>
+  </section>
+
+  <!-- gsap.from -->
+  <section>
+    <h2>2. gsap.from</h2>
+    <div class="box" id="boxFrom"></div>
+  </section>
+
+  <!-- ScrollTrigger -->
+  <section>
+    <h2>3. ScrollTrigger</h2>
+    <div class="box" id="scrollBox"></div>
+  </section>
+
+  <!-- Flip -->
+  <section>
+    <h2>4. Flip</h2>
+    <div class="flip-container" id="flipContainer">
+      <div class="flip-box"></div>
+      <div class="flip-box"></div>
+      <div class="flip-box"></div>
+    </div>
+  </section>
+
+  <!-- Draggable -->
+  <section>
+    <h2>5. Draggable</h2>
+    <div class="draggable" id="dragBox">Arraste</div>
+  </section>
+
+  <!-- SplitText -->
+  <section>
+    <h2>6. SplitText</h2>
+    <div class="text-split" id="splitText">O Sertão vai virar mar.</div>
+  </section>
+
+  <!-- MotionPathPlugin -->
+  <section>
+    <h2>7. MotionPathPlugin</h2>
+    <svg>
+      <path id="caminho" d="M20,100 C150,10 300,190 500,100" stroke="white" fill="none"/>
+      <circle id="motionPathCircle"></circle>
+    </svg>
+  </section>
+
+  <!-- DrawSVGPlugin -->
+  <section>
+    <h2>8. DrawSVGPlugin</h2>
+    <svg viewBox="0 0 400 100">
+      <path id="svgPath" d="M10,90 Q100,15 200,80 T390,80" stroke="lime" stroke-width="4" fill="none"/>
+    </svg>
+  </section>
+
+  <script>
+    // REGISTRA OS PLUGINS
+    gsap.registerPlugin(ScrollTrigger, Flip, Draggable, MotionPathPlugin, SplitText, DrawSVGPlugin);
+
+    // 1. gsap.to
+    gsap.to("#boxTo", {
+      duration: 1,
+      x: 200,
+      backgroundColor: "#0f0",
+      ease: "power2.out"
+    });
+
+    // 2. gsap.from
+    gsap.from("#boxFrom", {
+      duration: 1,
+      opacity: 0,
+      y: 100,
+      ease: "bounce"
+    });
+
+    // 3. ScrollTrigger
+    gsap.to("#scrollBox", {
+      scrollTrigger: {
+        trigger: "#scrollBox",
+        start: "top 80%",
+        end: "bottom 20%",
+        toggleActions: "play reverse play reverse"
+      },
+      scale: 1.5,
+      rotation: 180,
+      backgroundColor: "#ff0",
+      duration: 1
+    });
+
+    // 4. Flip
+    const flipContainer = document.getElementById("flipContainer");
+    flipContainer.addEventListener("click", () => {
+      const state = Flip.getState(".flip-box");
+      const first = flipContainer.children[0];
+      first.classList.toggle("big");
+      flipContainer.append(first);
+      Flip.from(state, {
+        duration: 0.6,
+        ease: "power1.inOut",
+        absolute: true,
+        stagger: 0.05
+      });
+    });
+
+    // 5. Draggable
+    Draggable.create("#dragBox");
+
+    // 6. SplitText
+    const split = new SplitText("#splitText", { type: "words" });
+    gsap.from(split.words, {
+      duration: 1,
+      opacity: 0,
+      y: 30,
+      stagger: 0.2,
+      ease: "back.out"
+    });
+
+    // 7. MotionPathPlugin
+    gsap.to("#motionPathCircle", {
+      duration: 4,
+      repeat: -1,
+      ease: "none",
+      motionPath: {
+        path: "#caminho",
+        align: "#caminho",
+        autoRotate: true,
+        alignOrigin: [0.5, 0.5]
+      }
+    });
+
+    // 8. DrawSVGPlugin
+    gsap.from("#svgPath", {
+      duration: 2,
+      drawSVG: "0%",
+      ease: "power1.inOut"
+    });
+  </script>
+</body>
+</html>
