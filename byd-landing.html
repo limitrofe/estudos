@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BYD | Future is Electric</title>
+    <style>
+        :root {
+            --byd-blue: #0057ff;
+            --blueprint-line: rgba(0, 160, 255, 0.4);
+            --bg: #03050a;
+            --text-thin: 200;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section (Canvas Area) */
+        #hero {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #webgl-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        #css-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Content Sections */
+        .section {
+            height: 100vh;
+            padding: 100px 10%;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: transparent;
+        }
+
+        .title-line {
+            font-weight: 100;
+            font-size: 4rem;
+            letter-spacing: 15px;
+            text-transform: uppercase;
+            margin: 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        .divider {
+            width: 0;
+            height: 1px;
+            background: var(--byd-blue);
+            margin: 20px 0;
+            transition: width 1.5s ease;
+        }
+
+        .description {
+            max-width: 500px;
+            font-weight: 300;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease 0.5s;
+        }
+
+        .section.visible .title-line { opacity: 1; transform: translateY(0); }
+        .section.visible .divider { width: 300px; }
+        .section.visible .description { opacity: 1; transform: translateY(0); }
+
+        /* Hotspot Elements */
+        .hotspot {
+            pointer-events: auto;
+            cursor: pointer;
+            border: 1px solid var(--blueprint-line);
+            background: rgba(0, 87, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        .hotspot:hover {
+            background: var(--byd-blue);
+            border-color: #fff;
+            box-shadow: 0 0 20px var(--byd-blue);
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            box-sizing: border-box;
+        }
+
+        .logo { font-weight: 900; font-size: 1.5rem; letter-spacing: 5px; }
+        .nav-links { display: flex; gap: 40px; font-weight: 300; font-size: 0.8rem; letter-spacing: 2px; }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">BYD</div>
+        <div class="nav-links">
+            <span>MODELS</span>
+            <span>TECHNOLOGY</span>
+            <span>SUSTAINABILITY</span>
+        </div>
+    </nav>
+
+    <div id="hero">
+        <div id="webgl-container"></div>
+        <div id="css-container"></div>
+        
+        <div style="position: absolute; bottom: 50px; text-align: center; width: 100%; z-index: 5; opacity: 0.4;">
+            <p style="font-weight: 100; letter-spacing: 10px; font-size: 0.7rem;">SCROLL TO DISCOVER</p>
+        </div>
+    </div>
+
+    <section class="section" id="section-1">
+        <h2 class="title-line">Blade Battery</h2>
+        <div class="divider"></div>
+        <p class="description">
+            A revolução na segurança e eficiência energética. Desenvolvida para suportar as condições mais extremas, a Blade Battery define o novo padrão para a indústria automobilística global.
+        </p>
+    </section>
+
+    <section class="section" id="section-2">
+        <h2 class="title-line">Pure Luxury</h2>
+        <div class="divider"></div>
+        <p class="description">
+            Minimalismo escandinavo encontra a tecnologia asiática. Um interior projetado para os sentidos, com materiais sustentáveis e acabamento premium em cada detalhe.
+        </p>
+    </section>
+
+    <!-- Templates para Hotspots -->
+    <template id="hotspot-engine">
+        <div class="hotspot">E-Platform 3.0</div>
+    </template>
+    
+    <template id="hotspot-safety">
+        <div class="hotspot">DiPilot Safety</div>
+    </template>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+                "gsap": "https://cdn.skypack.dev/gsap"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
+        import gsap from 'gsap';
+
+        let scene, camera, renderer, cssRenderer, carGroup;
+
+        init();
+        animate();
+
+        function init() {
+            // Scene Setup
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
+            camera.position.set(0, 150, 600);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.getElementById('webgl-container').appendChild(renderer.domElement);
+
+            cssRenderer = new CSS3DRenderer();
+            cssRenderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('css-container').appendChild(cssRenderer.domElement);
+
+            // Lights
+            const ambient = new THREE.AmbientLight(0xffffff, 0.5);
+            scene.add(ambient);
+
+            // Car blueprint creation
+            createBlueprintCar();
+
+            // Hotspots
+            addHotspot('hotspot-engine', new THREE.Vector3(150, 20, 0));
+            addHotspot('hotspot-safety', new THREE.Vector3(-150, 40, 50));
+
+            // Grid
+            const grid = new THREE.GridHelper(2000, 40, 0x0057ff, 0x051020);
+            grid.position.y = -60;
+            scene.add(grid);
+
+            window.addEventListener('resize', onResize);
+            setupScrollAnimations();
+        }
+
+        function createBlueprintCar() {
+            carGroup = new THREE.Group();
+            
+            const mat = new THREE.LineBasicMaterial({ color: 0x00a0ff, transparent: true, opacity: 0.6 });
+
+            // Main Body (Simplified BYD-like Sedan)
+            const bodyParts = [
+                { g: new THREE.BoxGeometry(350, 40, 140), p: [0, 0, 0] },     // Base
+                { g: new THREE.BoxGeometry(200, 40, 120), p: [-20, 40, 0] },   // Cabin
+                { g: new THREE.CylinderGeometry(40, 40, 30, 16), p: [120, -20, 70], r: [Math.PI/2, 0, 0] }, // Wheel FR
+                { g: new THREE.CylinderGeometry(40, 40, 30, 16), p: [-120, -20, 70], r: [Math.PI/2, 0, 0] }, // Wheel RR
+                { g: new THREE.CylinderGeometry(40, 40, 30, 16), p: [120, -20, -70], r: [Math.PI/2, 0, 0] }, // Wheel FL
+                { g: new THREE.CylinderGeometry(40, 40, 30, 16), p: [-120, -20, -70], r: [Math.PI/2, 0, 0] } // Wheel RL
+            ];
+
+            bodyParts.forEach(part => {
+                const wireframe = new THREE.WireframeGeometry(part.g);
+                const line = new THREE.LineSegments(wireframe, mat);
+                line.position.set(...part.p);
+                if (part.r) line.rotation.set(...part.r);
+                carGroup.add(line);
+            });
+
+            scene.add(carGroup);
+        }
+
+        function addHotspot(templateId, position) {
+            const el = document.getElementById(templateId).content.cloneNode(true).firstElementChild;
+            const obj = new CSS3DObject(el);
+            obj.position.copy(position);
+            scene.add(obj);
+        }
+
+        function setupScrollAnimations() {
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                const heroHeight = window.innerHeight;
+
+                // Move camera and car on scroll
+                if (scrollY < heroHeight * 2) {
+                    camera.position.z = 600 + (scrollY * 0.5);
+                    camera.position.y = 150 + (scrollY * 0.2);
+                    carGroup.rotation.y = scrollY * 0.002;
+                    
+                    // Fade out the 3D scene
+                    const opacity = Math.max(0, 1 - (scrollY / (heroHeight * 0.8)));
+                    document.getElementById('hero').style.opacity = opacity;
+                }
+
+                // Intersection observer simulator
+                document.querySelectorAll('.section').forEach(sec => {
+                    const top = sec.getBoundingClientRect().top;
+                    if (top < window.innerHeight * 0.7) {
+                        sec.classList.add('visible');
+                    }
+                });
+            });
+        }
+
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            cssRenderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (carGroup && window.scrollY < 100) {
+                carGroup.rotation.y += 0.005;
+            }
+            renderer.render(scene, camera);
+            cssRenderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>

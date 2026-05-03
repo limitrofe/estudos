@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Vision | Electric Concept 2026</title>
+    <style>
+        :root {
+            --accent: #00ffaa;
+            --secondary: #0066ff;
+            --bg: #020205;
+            --panel: rgba(10, 10, 20, 0.8);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--bg);
+            font-family: 'Outfit', sans-serif;
+            color: white;
+        }
+
+        #webgl-container { position: absolute; top: 0; left: 0; z-index: 1; }
+        #css-container { position: absolute; top: 0; left: 0; z-index: 2; pointer-events: none; }
+
+        /* UI Overlays */
+        .overlay {
+            position: absolute;
+            z-index: 10;
+            padding: 40px;
+            pointer-events: none;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .header { top: 0; display: flex; justify-content: space-between; align-items: center; }
+        .footer { bottom: 0; text-align: center; }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hotspot Labels */
+        .hotspot-label {
+            pointer-events: auto;
+            cursor: pointer;
+            background: var(--panel);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 170, 0.3);
+            border-radius: 50px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .hotspot-label:hover {
+            border-color: var(--accent);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(0, 255, 170, 0.4);
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(0, 255, 170, 0.7);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 170, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 170, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 170, 0); }
+        }
+
+        /* Info Card */
+        .spec-card {
+            width: 280px;
+            background: var(--panel);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-left: 4px solid var(--accent);
+            border-radius: 12px;
+            padding: 20px;
+            pointer-events: auto;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .spec-card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .spec-card h3 { color: var(--accent); margin-top: 0; text-transform: uppercase; font-size: 0.9rem; }
+        .spec-card p { font-size: 0.85rem; line-height: 1.5; color: rgba(255,255,255,0.7); }
+        .spec-card .value { font-size: 1.5rem; font-weight: 700; margin: 10px 0; }
+
+        .cta-btn {
+            pointer-events: auto;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cta-btn:hover {
+            background: var(--accent);
+            color: black;
+            box-shadow: 0 0 30px var(--accent);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="overlay header">
+        <div class="logo">E-VISION</div>
+        <button class="cta-btn">Pre-Order Now</button>
+    </div>
+
+    <div class="overlay footer">
+        <p style="opacity: 0.5; font-size: 0.7rem; letter-spacing: 3px;">2026 ELECTRIC CONCEPT | SCROLL TO EXPLORE</p>
+    </div>
+
+    <div id="webgl-container"></div>
+    <div id="css-container"></div>
+
+    <!-- UI Templates -->
+    <template id="hotspot-battery">
+        <div class="hotspot-label" onclick="toggleCard('card-battery')">
+            <div class="pulse"></div>
+            <span>Power Cell</span>
+        </div>
+    </template>
+
+    <template id="card-battery">
+        <div class="spec-card" id="card-battery">
+            <h3>Solid-State Battery</h3>
+            <div class="value">950 KM</div>
+            <p>Nova arquitetura de bateria com carga ultrarrápida (0-80% em 8 min) e densidade energética 40% superior.</p>
+        </div>
+    </template>
+
+    <template id="hotspot-aero">
+        <div class="hotspot-label" onclick="toggleCard('card-aero')">
+            <div class="pulse"></div>
+            <span>Aero-Dynamic</span>
+        </div>
+    </template>
+
+    <template id="card-aero">
+        <div class="spec-card" id="card-aero">
+            <h3>Active Aero</h3>
+            <div class="value">0.19 CD</div>
+            <p>Superfícies adaptativas que se ajustam em tempo real para minimizar o arrasto e maximizar a autonomia.</p>
+        </div>
+    </template>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
+        import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+        let scene, camera, renderer, cssRenderer, controls;
+        let carGroup;
+
+        window.toggleCard = (id) => {
+            document.querySelectorAll('.spec-card').forEach(c => c.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        };
+
+        init();
+        animate();
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+            camera.position.set(400, 200, 600);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.getElementById('webgl-container').appendChild(renderer.domElement);
+
+            cssRenderer = new CSS3DRenderer();
+            cssRenderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('css-container').appendChild(cssRenderer.domElement);
+
+            controls = new OrbitControls(camera, cssRenderer.domElement);
+            controls.enableDamping = true;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.5;
+
+            // Lights
+            const ambient = new THREE.AmbientLight(0x404040, 2);
+            scene.add(ambient);
+            
+            const p1 = new THREE.PointLight(0x00ffaa, 2);
+            p1.position.set(200, 100, 100);
+            scene.add(p1);
+
+            // Car Silhouette
+            createCarSilhouette();
+
+            // Hotspots
+            addHotspot('hotspot-battery', 'card-battery', new THREE.Vector3(0, -20, 50));
+            addHotspot('hotspot-aero', 'card-aero', new THREE.Vector3(150, 20, 50));
+
+            window.addEventListener('resize', onResize);
+        }
+
+        function createCarSilhouette() {
+            carGroup = new THREE.Group();
+            
+            // Stylized Body (Wireframe)
+            const bodyGeom = new THREE.BoxGeometry(400, 80, 160);
+            const wireframe = new THREE.WireframeGeometry(bodyGeom);
+            const line = new THREE.LineSegments(wireframe);
+            line.material.color.setHex(0x0066ff);
+            line.material.transparent = true;
+            line.material.opacity = 0.3;
+            carGroup.add(line);
+
+            // "Electric" Core
+            const coreGeom = new THREE.BoxGeometry(380, 60, 140);
+            const coreMat = new THREE.MeshBasicMaterial({ color: 0x00ffaa, transparent: true, opacity: 0.05 });
+            carGroup.add(new THREE.Mesh(coreGeom, coreMat));
+
+            // Wheels
+            const wheelGeom = new THREE.CylinderGeometry(40, 40, 30, 32);
+            const wheelMat = new THREE.MeshBasicMaterial({ color: 0x00ffaa, wireframe: true });
+            
+            const positions = [[-120, -40, 85], [120, -40, 85], [-120, -40, -85], [120, -40, -85]];
+            positions.forEach(pos => {
+                const wheel = new THREE.Mesh(wheelGeom, wheelMat);
+                wheel.rotation.x = Math.PI / 2;
+                wheel.position.set(...pos);
+                carGroup.add(wheel);
+            });
+
+            scene.add(carGroup);
+
+            // Ground grid
+            const grid = new THREE.GridHelper(2000, 50, 0x0066ff, 0x002244);
+            grid.position.y = -85;
+            scene.add(grid);
+        }
+
+        function addHotspot(labelTemplate, cardTemplate, position) {
+            // Label
+            const labelEl = document.getElementById(labelTemplate).content.cloneNode(true).firstElementChild;
+            const labelObj = new CSS3DObject(labelEl);
+            labelObj.position.copy(position);
+            scene.add(labelObj);
+
+            // Card (Invisible/Hidden initially)
+            const cardEl = document.getElementById(cardTemplate).content.cloneNode(true).firstElementChild;
+            const cardObj = new CSS3DObject(cardEl);
+            cardObj.position.copy(position).add(new THREE.Vector3(0, 80, 0));
+            scene.add(cardObj);
+        }
+
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            cssRenderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+            cssRenderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>

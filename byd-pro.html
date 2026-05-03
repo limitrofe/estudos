@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BYD Pro | Seamless Scroll</title>
+    <style>
+        :root {
+            --byd-blue: #00a0ff;
+            --bg: #03050a;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 3D Scene - STICKY */
+        #scene-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        #webgl-container, #css-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Bloqueia cliques no 3D por padrão para o scroll passar liso */
+        #scene-container.nav-mode { pointer-events: none; }
+        /* Quando em modo 3D, libera tudo */
+        #scene-container.explore-mode { pointer-events: auto; }
+
+        /* Content - SCROLLABLE */
+        .page-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 10%;
+            pointer-events: none; /* Deixa o scroll passar */
+        }
+
+        .text-block {
+            max-width: 500px;
+            pointer-events: auto; /* Reativa cliques só no texto */
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        section.active .text-block {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .title { font-weight: 100; font-size: 4rem; text-transform: uppercase; margin: 0; }
+        .accent { color: var(--byd-blue); font-weight: 900; }
+
+        /* Floating Controls */
+        #controls {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-ui {
+            background: rgba(0, 160, 255, 0.1);
+            border: 1px solid var(--byd-blue);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+
+        .btn-ui.active {
+            background: var(--byd-blue);
+            box-shadow: 0 0 20px var(--byd-blue);
+        }
+
+        /* Scroll indicator */
+        #scroll-hint {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            opacity: 0.5;
+            font-size: 0.6rem;
+            letter-spacing: 4px;
+        }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="scene-container" class="nav-mode">
+        <div id="webgl-container"></div>
+        <div id="css-container"></div>
+    </div>
+
+    <div id="controls">
+        <button id="mode-toggle" class="btn-ui">EXPLORAR 360°</button>
+    </div>
+
+    <div id="scroll-hint">SCROLL TO DISCOVER</div>
+
+    <div class="page-content">
+        <section id="sec-1" class="active">
+            <div class="text-block">
+                <h1 class="title">BYD <span class="accent">SEAL</span></h1>
+                <p>O sedã elétrico que redefine a performance. Design oceânico e tecnologia de ponta para uma nova era.</p>
+            </div>
+        </section>
+
+        <section id="sec-2">
+            <div class="text-block">
+                <h1 class="title">BLADE <span class="accent">POWER</span></h1>
+                <p>Mais que uma bateria, um padrão de segurança global. Resistente a perfurações e altas temperaturas.</p>
+            </div>
+        </section>
+
+        <section id="sec-3">
+            <div class="text-block">
+                <h1 class="title">ZERO <span class="accent">EMISSION</span></h1>
+                <p>Contribuindo para um mundo mais verde através da inovação constante em mobilidade elétrica.</p>
+            </div>
+        </section>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/",
+                "gsap": "https://cdn.skypack.dev/gsap"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
+        import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+        import gsap from 'gsap';
+
+        let scene, camera, renderer, cssRenderer, controls, carGroup;
+        let isExploreMode = false;
+
+        init();
+        animate();
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
+            camera.position.set(0, 100, 600);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('webgl-container').appendChild(renderer.domElement);
+
+            cssRenderer = new CSS3DRenderer();
+            cssRenderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('css-container').appendChild(cssRenderer.domElement);
+
+            controls = new OrbitControls(camera, cssRenderer.domElement);
+            controls.enabled = false; // Desativado por padrão para permitir scroll
+            controls.enableDamping = true;
+
+            // Blueprint Car
+            carGroup = new THREE.Group();
+            const mat = new THREE.LineBasicMaterial({ color: 0x00a0ff, transparent: true, opacity: 0.4 });
+            const body = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.BoxGeometry(350, 60, 150)), mat);
+            carGroup.add(body);
+            scene.add(carGroup);
+
+            // Grid
+            scene.add(new THREE.GridHelper(2000, 40, 0x00a0ff, 0x051020));
+
+            // Mode Toggle Logic
+            const btn = document.getElementById('mode-toggle');
+            btn.onclick = () => {
+                isExploreMode = !isExploreMode;
+                const container = document.getElementById('scene-container');
+                
+                if (isExploreMode) {
+                    isExploreMode = true;
+                    container.classList.replace('nav-mode', 'explore-mode');
+                    controls.enabled = true;
+                    btn.classList.add('active');
+                    btn.innerText = "VOLTAR AO SCROLL";
+                    document.body.style.overflow = 'hidden'; // Trava a página
+                } else {
+                    isExploreMode = false;
+                    container.classList.replace('explore-mode', 'nav-mode');
+                    controls.enabled = false;
+                    btn.classList.remove('active');
+                    btn.innerText = "EXPLORAR 360°";
+                    document.body.style.overflow = 'auto'; // Libera a página
+                }
+            };
+
+            // GSAP Scroll Animations
+            window.addEventListener('scroll', () => {
+                if (isExploreMode) return;
+
+                const scrollY = window.scrollY;
+                const sectionHeight = window.innerHeight;
+                const progress = scrollY / (document.body.scrollHeight - window.innerHeight);
+
+                // Animação do carro baseada no scroll
+                carGroup.rotation.y = progress * Math.PI * 2;
+                camera.position.z = 600 - (progress * 200);
+                camera.position.x = Math.sin(progress * 5) * 100;
+
+                // Ativação das seções
+                const activeIndex = Math.round(scrollY / sectionHeight);
+                document.querySelectorAll('section').forEach((sec, idx) => {
+                    if (idx === activeIndex) sec.classList.add('active');
+                    else sec.classList.remove('active');
+                });
+
+                // Fade out no final
+                document.getElementById('scroll-hint').style.opacity = progress > 0.1 ? 0 : 0.5;
+            });
+
+            window.addEventListener('resize', onResize);
+        }
+
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            cssRenderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (controls.enabled) controls.update();
+            renderer.render(scene, camera);
+            cssRenderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>

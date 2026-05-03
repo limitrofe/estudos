@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BYD Interactive | Blueprint 3D</title>
+    <style>
+        :root {
+            --byd-blue: #00a0ff;
+            --bg: #03050a;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        #hero {
+            height: 100vh;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            transition: opacity 0.5s;
+        }
+
+        #webgl-container, #css-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Bloqueador de eventos para o OrbitControls não brigar com o scroll de texto */
+        #css-container { pointer-events: none; }
+        #css-container * { pointer-events: auto; } /* Libera só os botões */
+
+        /* Content Area */
+        #content {
+            position: relative;
+            z-index: 10;
+            margin-top: 100vh;
+        }
+
+        .section {
+            min-height: 100vh;
+            padding: 80px 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: rgba(3, 5, 10, 0.7);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(0, 160, 255, 0.1);
+        }
+
+        .title-line { font-weight: 100; font-size: clamp(2.5rem, 10vw, 5rem); letter-spacing: 5px; text-transform: uppercase; margin: 0; }
+        .divider { width: 100px; height: 2px; background: var(--byd-blue); margin: 30px 0; }
+        .description { max-width: 600px; font-weight: 300; font-size: 1.1rem; line-height: 1.8; color: rgba(255, 255, 255, 0.6); }
+
+        /* Hotspots */
+        .hotspot {
+            background: rgba(0, 160, 255, 0.1);
+            border: 1px solid var(--byd-blue);
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .hotspot:hover { background: var(--byd-blue); box-shadow: 0 0 30px var(--byd-blue); }
+
+        /* UI Hints */
+        #ui-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            text-align: center;
+            pointer-events: none;
+        }
+        .mouse-icon {
+            width: 25px;
+            height: 40px;
+            border: 2px solid white;
+            border-radius: 20px;
+            margin: 0 auto 10px;
+            position: relative;
+        }
+        .mouse-icon::after {
+            content: '';
+            width: 4px;
+            height: 8px;
+            background: white;
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+            animation: scroll-hint 1.5s infinite;
+        }
+        @keyframes scroll-hint { 0% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, 15px); } }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="hero">
+        <div id="webgl-container"></div>
+        <div id="css-container"></div>
+        
+        <div id="ui-hint">
+            <div class="mouse-icon"></div>
+            <p style="font-size: 0.6rem; letter-spacing: 3px; opacity: 0.5;">DRAG TO ROTATE | SCROLL TO ZOOM</p>
+        </div>
+    </div>
+
+    <div id="content">
+        <section class="section">
+            <h2 class="title-line">E-Platform 3.0</h2>
+            <div class="divider"></div>
+            <p class="description">A espinha dorsal da próxima geração de veículos elétricos. Integração total, eficiência extrema e segurança inigualável em uma única arquitetura modular.</p>
+        </section>
+
+        <section class="section">
+            <h2 class="title-line">Intelligence</h2>
+            <div class="divider"></div>
+            <p class="description">O sistema DiPilot eleva a condução autônoma a um novo patamar, com sensores de alta precisão e processamento em tempo real para uma viagem sem preocupações.</p>
+        </section>
+    </div>
+
+    <template id="h-front">
+        <div class="hotspot" onclick="alert('Lidar & Camera Sensors Active')">SENSORS</div>
+    </template>
+    
+    <template id="h-mid">
+        <div class="hotspot" onclick="alert('800V Ultra Fast Charge')">800V CORE</div>
+    </template>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
+        import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+        let scene, camera, renderer, cssRenderer, controls, carGroup;
+
+        init();
+        animate();
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
+            camera.position.set(400, 200, 600);
+
+            // Renderers
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            document.getElementById('webgl-container').appendChild(renderer.domElement);
+
+            cssRenderer = new CSS3DRenderer();
+            cssRenderer.setSize(window.innerWidth, window.innerHeight);
+            // IMPORTANTE: O CSS Renderer deve receber os eventos para o OrbitControls funcionar com o HTML
+            document.getElementById('css-container').appendChild(cssRenderer.domElement);
+
+            // Orbit Controls
+            // Atribuímos ao cssRenderer.domElement para que ele capture cliques sobre o canvas
+            controls = new OrbitControls(camera, cssRenderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.screenSpacePanning = false;
+            controls.minDistance = 300;
+            controls.maxDistance = 1000;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.5;
+
+            // Blueprint Car
+            createBlueprintCar();
+
+            // Hotspots
+            addHotspot('h-front', new THREE.Vector3(180, 20, 0));
+            addHotspot('h-mid', new THREE.Vector3(0, -30, 0));
+
+            // Grid
+            const grid = new THREE.GridHelper(2000, 40, 0x00a0ff, 0x051020);
+            grid.position.y = -80;
+            scene.add(grid);
+
+            window.addEventListener('resize', onResize);
+            
+            // Scroll Sync
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                const hero = document.getElementById('hero');
+                
+                // Diminui o hero conforme scrolla
+                const opacity = 1 - (scrollY / window.innerHeight);
+                hero.style.opacity = Math.max(0, opacity);
+                
+                // Se estiver scrollado, desativa a rotação automática
+                if (scrollY > 50) controls.autoRotate = false;
+                else controls.autoRotate = true;
+            });
+        }
+
+        function createBlueprintCar() {
+            carGroup = new THREE.Group();
+            const mat = new THREE.LineBasicMaterial({ color: 0x00a0ff, transparent: true, opacity: 0.5 });
+            
+            // Wireframes
+            const body = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.BoxGeometry(350, 60, 150)), mat);
+            carGroup.add(body);
+            
+            const roof = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.BoxGeometry(200, 40, 120)), mat);
+            roof.position.set(-20, 50, 0);
+            carGroup.add(roof);
+
+            scene.add(carGroup);
+        }
+
+        function addHotspot(id, pos) {
+            const el = document.getElementById(id).content.cloneNode(true).firstElementChild;
+            const obj = new CSS3DObject(el);
+            obj.position.copy(pos);
+            scene.add(obj);
+        }
+
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            cssRenderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+            cssRenderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>
