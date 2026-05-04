@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BYD Mobile-Ready | Experience</title>
+    <style>
+        :root {
+            --byd-blue: #00a0ff;
+            --bg: #03050a;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Hero Area */
+        #hero {
+            height: 100vh;
+            width: 100%;
+            position: fixed; /* Fixado para o scroll passar por cima ou mover o fundo */
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        #webgl-container, #css-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Content container to allow scrolling */
+        #content {
+            position: relative;
+            z-index: 10;
+            margin-top: 100vh; /* Começa após o hero */
+        }
+
+        .section {
+            min-height: 80vh;
+            padding: 60px 10%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: rgba(3, 5, 10, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Typography */
+        .title-line {
+            font-weight: 100;
+            font-size: clamp(2rem, 8vw, 4rem); /* Responsivo */
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .divider {
+            width: 80px;
+            height: 2px;
+            background: var(--byd-blue);
+            margin: 20px 0;
+        }
+
+        .description {
+            max-width: 500px;
+            font-weight: 300;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Hotspots (Otimizados para Touch) */
+        .hotspot {
+            pointer-events: auto;
+            cursor: pointer;
+            background: rgba(0, 160, 255, 0.2);
+            border: 1px solid var(--byd-blue);
+            padding: 12px 20px; /* Maior para o dedo */
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            box-shadow: 0 0 15px rgba(0, 160, 255, 0.3);
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(3,5,10,1), transparent);
+        }
+
+        .logo { font-weight: 900; font-size: 1.2rem; letter-spacing: 3px; }
+        
+        @media (max-width: 600px) {
+            .nav-links { display: none; } /* Esconde links no mobile para limpar o topo */
+            .section { padding: 40px 5%; }
+        }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;300;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">BYD</div>
+        <div style="font-size: 0.7rem; opacity: 0.6;">PREMIUM ELECTRIC</div>
+    </nav>
+
+    <div id="hero">
+        <div id="webgl-container"></div>
+        <div id="css-container"></div>
+    </div>
+
+    <div id="content">
+        <section class="section">
+            <h2 class="title-line">Innovating<br>Safety</h2>
+            <div class="divider"></div>
+            <p class="description">
+                A tecnologia BYD não é apenas sobre velocidade, é sobre proteção. A nossa arquitetura de segurança passiva e ativa trabalha em milissegundos para você.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2 class="title-line">Sustainable<br>Power</h2>
+            <div class="divider"></div>
+            <p class="description">
+                Energia limpa do grid para as rodas. Com eficiência recorde, cada carga leva você mais longe, respeitando o planeta.
+            </p>
+        </section>
+    </div>
+
+    <template id="h-blade">
+        <div class="hotspot">BLADE TECH</div>
+    </template>
+    
+    <template id="h-aero">
+        <div class="hotspot">AERO MAX</div>
+    </template>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/renderers/CSS3DRenderer.js';
+
+        let scene, camera, renderer, cssRenderer, carGroup;
+
+        init();
+        animate();
+
+        function init() {
+            scene = new THREE.Scene();
+            
+            // Câmera dinâmica baseada na largura da tela
+            const isMobile = window.innerWidth < 600;
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 3000);
+            camera.position.set(0, 100, isMobile ? 800 : 500); // Afasta no mobile
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Limita pixel ratio para performance
+            document.getElementById('webgl-container').appendChild(renderer.domElement);
+
+            cssRenderer = new CSS3DRenderer();
+            cssRenderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('css-container').appendChild(cssRenderer.domElement);
+
+            // Grid técnico
+            const grid = new THREE.GridHelper(2000, 40, 0x00a0ff, 0x051020);
+            grid.position.y = -80;
+            scene.add(grid);
+
+            // Carro Blueprint
+            createCar();
+
+            // Hotspots
+            addHotspot('h-blade', new THREE.Vector3(0, -40, 60));
+            addHotspot('h-aero', new THREE.Vector3(150, 40, 0));
+
+            window.addEventListener('resize', onResize);
+            
+            // Controle de Scroll
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+                carGroup.rotation.y = scrollY * 0.003;
+                carGroup.position.y = -scrollY * 0.1;
+                
+                // Fade do hero
+                const opacity = 1 - (scrollY / window.innerHeight);
+                document.getElementById('hero').style.opacity = Math.max(0, opacity);
+            });
+        }
+
+        function createCar() {
+            carGroup = new THREE.Group();
+            const mat = new THREE.LineBasicMaterial({ color: 0x00a0ff, transparent: true, opacity: 0.5 });
+            
+            // Geometrias simplificadas (Blueprint Style)
+            const body = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.BoxGeometry(320, 50, 130)), mat);
+            carGroup.add(body);
+
+            const cabin = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.BoxGeometry(180, 40, 110)), mat);
+            cabin.position.set(-20, 45, 0);
+            carGroup.add(cabin);
+
+            // Rodas
+            const wheelGeom = new THREE.WireframeGeometry(new THREE.CylinderGeometry(40, 40, 20, 12));
+            [ [100, -30, 65], [-100, -30, 65], [100, -30, -65], [-100, -30, -65] ].forEach(p => {
+                const w = new THREE.LineSegments(wheelGeom, mat);
+                w.rotation.x = Math.PI/2;
+                w.position.set(...p);
+                carGroup.add(w);
+            });
+
+            scene.add(carGroup);
+        }
+
+        function addHotspot(id, pos) {
+            const el = document.getElementById(id).content.cloneNode(true).firstElementChild;
+            const obj = new CSS3DObject(el);
+            obj.position.copy(pos);
+            scene.add(obj);
+        }
+
+        function onResize() {
+            const isMobile = window.innerWidth < 600;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.position.z = isMobile ? 800 : 500;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            cssRenderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (carGroup && window.scrollY < 100) {
+                carGroup.rotation.y += 0.005;
+            }
+            renderer.render(scene, camera);
+            cssRenderer.render(scene, camera);
+        }
+    </script>
+</body>
+</html>
