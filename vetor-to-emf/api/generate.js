@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
     const converterStatus = getConverterStatus();
     if (!converterStatus.converterAvailable) {
       sendJson(res, 503, {
-        error: 'Conversor indisponivel. Configure CONVERSION_WORKER_URL na Vercel ou instale Inkscape no ambiente local.',
+        error: 'Conversor indisponivel neste ambiente. Ative o worker de conversao para gerar o EMF.',
       });
       return;
     }

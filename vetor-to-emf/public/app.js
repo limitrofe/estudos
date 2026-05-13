@@ -11,6 +11,7 @@ const result = document.querySelector('#result');
 const resultName = document.querySelector('#resultName');
 const report = document.querySelector('#report');
 let converterAvailable = false;
+let busyState = false;
 
 loadStatus();
 
@@ -46,7 +47,7 @@ form.addEventListener('submit', async (event) => {
   }
 
   if (!converterAvailable) {
-    setMessage('Conversor indisponivel. Instale Inkscape localmente ou configure CONVERSION_WORKER_URL.', 'bad');
+    setMessage('O conversor ainda nao esta ativo neste ambiente.', 'bad');
     return;
   }
 
@@ -82,11 +83,11 @@ async function loadStatus() {
     const status = await readJsonResponse(response);
 
     converterAvailable = Boolean(status.converterAvailable);
-    setStatus(inkscapeStatus, converterAvailable ? 'Disponivel' : 'Configurar', converterAvailable ? 'ok' : 'bad');
-    button.disabled = !converterAvailable;
+    setStatus(inkscapeStatus, converterAvailable ? 'Disponivel' : 'Indisponivel', converterAvailable ? 'ok' : 'bad');
+    updateButtonState();
 
     if (!converterAvailable) {
-      setMessage('Configure CONVERSION_WORKER_URL na Vercel ou instale Inkscape no ambiente local.', 'bad');
+      setMessage('O conversor precisa ser ativado antes de gerar o EMF.', 'bad');
     } else {
       setMessage('Escolha um arquivo para comecar.');
     }
@@ -161,9 +162,14 @@ function buildEmfFilename(filename) {
 }
 
 function setBusy(isBusy) {
-  button.disabled = isBusy || !converterAvailable;
-  button.textContent = isBusy ? 'Gerando...' : 'Gerar EMF';
+  busyState = isBusy;
   progress.classList.toggle('active', isBusy);
+  updateButtonState();
+}
+
+function updateButtonState() {
+  button.disabled = busyState || !converterAvailable;
+  button.textContent = busyState ? 'Gerando...' : converterAvailable ? 'Gerar EMF' : 'Conversor indisponivel';
 }
 
 function setStatus(element, text, tone) {

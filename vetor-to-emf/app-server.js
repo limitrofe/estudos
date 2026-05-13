@@ -28,7 +28,7 @@ app.post('/api/generate', upload.single('file'), async (req, res, next) => {
     const converterStatus = getConverterStatus();
     if (!converterStatus.converterAvailable) {
       res.status(503).json({
-        error: 'Conversor indisponivel. Configure CONVERSION_WORKER_URL na Vercel ou instale Inkscape no ambiente local.',
+        error: 'Conversor indisponivel neste ambiente. Ative o worker de conversao para gerar o EMF.',
       });
       return;
     }
