@@ -2,6 +2,7 @@ node_modules/
 output/
 uploads/
 .git/
+.vercel/
 credentials.json
 token.json
 *.ai
