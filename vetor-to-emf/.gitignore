@@ -1,0 +1,8 @@
+node_modules/
+output/
+uploads/
+credentials.json
+token.json
+*.log
+*.ai
+*.emf

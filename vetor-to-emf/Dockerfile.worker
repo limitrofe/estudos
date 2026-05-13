@@ -1,0 +1,24 @@
+FROM node:24-bookworm-slim
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    inkscape \
+    pstoedit \
+    poppler-utils \
+    fonts-dejavu \
+    fonts-liberation \
+  && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+COPY convert-to-emf.js svg-normalizer.js worker-server.js ./
+
+ENV NODE_ENV=production
+ENV PORT=3001
+
+EXPOSE 3001
+
+CMD ["node", "worker-server.js"]

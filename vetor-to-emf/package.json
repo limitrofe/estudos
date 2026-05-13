@@ -1,0 +1,22 @@
+{
+  "name": "vetor-to-emf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app-server.js",
+  "scripts": {
+    "convert": "node convert.js",
+    "app": "node app-server.js",
+    "worker": "node worker-server.js",
+    "check": "node --check app-server.js && node --check convert-to-emf.js && node --check svg-normalizer.js && node --check worker-server.js && find api -name '*.js' -maxdepth 3 -print0 | xargs -0 -n1 node --check"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "formidable": "^3.5.4",
+    "multer": "^2.1.1",
+    "svgo": "^4.0.1"
+  }
+}

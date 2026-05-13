@@ -1,0 +1,9 @@
+node_modules/
+output/
+uploads/
+.git/
+credentials.json
+token.json
+*.ai
+*.emf
+*.log

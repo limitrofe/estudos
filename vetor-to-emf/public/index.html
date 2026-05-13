@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vector to EMF</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <h1>Vector to EMF</h1>
+          <p>AI/PDF para EMF vetorial pronto para download.</p>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <form id="uploadForm" class="panel">
+          <label class="dropzone" for="fileInput" id="dropzone">
+            <input id="fileInput" name="file" type="file" accept=".ai,.pdf,application/pdf">
+            <span class="drop-title" id="fileTitle">Selecionar arquivo Illustrator ou PDF</span>
+            <span class="drop-meta" id="fileMeta">O resultado sera baixado como .emf.</span>
+          </label>
+
+          <button class="primary" type="submit" id="generateButton">
+            Gerar EMF
+          </button>
+        </form>
+
+        <aside class="panel status-panel">
+          <div class="status-row">
+            <span>Conversor</span>
+            <strong id="inkscapeStatus">Verificando</strong>
+          </div>
+          <div class="progress" id="progress">
+            <div class="progress-bar"></div>
+          </div>
+          <p class="message" id="message">Escolha um arquivo para comecar.</p>
+        </aside>
+      </section>
+
+      <section class="result" id="result" hidden>
+        <div>
+          <span class="result-label">Arquivo gerado</span>
+          <h2 id="resultName">matriz.emf</h2>
+        </div>
+        <dl class="report" id="report"></dl>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
