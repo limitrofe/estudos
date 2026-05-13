@@ -7,7 +7,7 @@
     "convert": "node convert.js",
     "app": "node app-server.js",
     "worker": "node worker-server.js",
-    "check": "node --check app-server.js && node --check convert-to-emf.js && node --check svg-normalizer.js && node --check worker-server.js && find api -name '*.js' -maxdepth 3 -print0 | xargs -0 -n1 node --check"
+    "check": "node --check app-server.js && node --check converter-availability.js && node --check convert-to-emf.js && node --check svg-normalizer.js && node --check worker-server.js && find api -name '*.js' -maxdepth 3 -print0 | xargs -0 -n1 node --check"
   },
   "keywords": [],
   "author": "",

@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { formidable } = require('formidable');
 const { convertToEditableEmf } = require('../convert-to-emf');
+const { getConverterStatus } = require('../converter-availability');
 const {
   cleanupDir,
   makeTempDir,
@@ -25,6 +26,14 @@ module.exports = async function handler(req, res) {
   const tempDir = makeTempDir();
 
   try {
+    const converterStatus = getConverterStatus();
+    if (!converterStatus.converterAvailable) {
+      sendJson(res, 503, {
+        error: 'Conversor indisponivel. Configure CONVERSION_WORKER_URL na Vercel ou instale Inkscape no ambiente local.',
+      });
+      return;
+    }
+
     const { files } = await parseForm(req, tempDir);
     const uploadedFile = getUploadedFile(files.file);
 

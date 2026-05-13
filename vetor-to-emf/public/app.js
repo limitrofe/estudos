@@ -10,6 +10,7 @@ const inkscapeStatus = document.querySelector('#inkscapeStatus');
 const result = document.querySelector('#result');
 const resultName = document.querySelector('#resultName');
 const report = document.querySelector('#report');
+let converterAvailable = false;
 
 loadStatus();
 
@@ -44,6 +45,11 @@ form.addEventListener('submit', async (event) => {
     return;
   }
 
+  if (!converterAvailable) {
+    setMessage('Conversor indisponivel. Instale Inkscape localmente ou configure CONVERSION_WORKER_URL.', 'bad');
+    return;
+  }
+
   setBusy(true);
   setMessage('Convertendo vetor e preparando o download...');
   result.hidden = true;
@@ -75,10 +81,14 @@ async function loadStatus() {
     const response = await fetch('/api/status');
     const status = await readJsonResponse(response);
 
-    setStatus(inkscapeStatus, status.converterAvailable ? 'Disponivel' : 'Configurar', status.converterAvailable ? 'ok' : 'bad');
+    converterAvailable = Boolean(status.converterAvailable);
+    setStatus(inkscapeStatus, converterAvailable ? 'Disponivel' : 'Configurar', converterAvailable ? 'ok' : 'bad');
+    button.disabled = !converterAvailable;
 
-    if (!status.converterAvailable) {
+    if (!converterAvailable) {
       setMessage('Configure CONVERSION_WORKER_URL na Vercel ou instale Inkscape no ambiente local.', 'bad');
+    } else {
+      setMessage('Escolha um arquivo para comecar.');
     }
   } catch (err) {
     setMessage(`Nao consegui verificar o ambiente: ${err.message}`, 'bad');
@@ -151,7 +161,7 @@ function buildEmfFilename(filename) {
 }
 
 function setBusy(isBusy) {
-  button.disabled = isBusy;
+  button.disabled = isBusy || !converterAvailable;
   button.textContent = isBusy ? 'Gerando...' : 'Gerar EMF';
   progress.classList.toggle('active', isBusy);
 }

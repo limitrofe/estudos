@@ -1,10 +1,10 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { execFileSync } = require('child_process');
 const express = require('express');
 const multer = require('multer');
 const { convertToEditableEmf } = require('./convert-to-emf');
+const { getConverterStatus } = require('./converter-availability');
 
 const app = express();
 const upload = multer({
@@ -18,20 +18,21 @@ app.set('trust proxy', true);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/status', (req, res) => {
-  const workerConfigured = Boolean(process.env.CONVERSION_WORKER_URL);
-  const localInkscapeAvailable = isCommandAvailable('inkscape') || fs.existsSync('/Applications/Inkscape.app/Contents/MacOS/inkscape');
-
-  res.json({
-    converterAvailable: workerConfigured || localInkscapeAvailable,
-    localInkscapeAvailable,
-    workerConfigured,
-  });
+  res.json(getConverterStatus());
 });
 
 app.post('/api/generate', upload.single('file'), async (req, res, next) => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'vector-to-emf-ui-'));
 
   try {
+    const converterStatus = getConverterStatus();
+    if (!converterStatus.converterAvailable) {
+      res.status(503).json({
+        error: 'Conversor indisponivel. Configure CONVERSION_WORKER_URL na Vercel ou instale Inkscape no ambiente local.',
+      });
+      return;
+    }
+
     if (!req.file) {
       res.status(400).json({ error: 'Envie um arquivo .ai ou .pdf.' });
       return;
@@ -96,15 +97,6 @@ async function convertWithWorker(filePath, originalName, tempDir) {
   fs.writeFileSync(outputPath, buffer);
 
   return outputPath;
-}
-
-function isCommandAvailable(command) {
-  try {
-    execFileSync('which', [command], { stdio: 'ignore' });
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 const port = Number(process.env.PORT || 3000);
