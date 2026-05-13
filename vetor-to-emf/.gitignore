@@ -4,6 +4,7 @@ uploads/
 .vercel/
 credentials.json
 token.json
+.env*.local
 *.log
 *.ai
 *.emf
